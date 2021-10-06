@@ -1,7 +1,7 @@
 > Exploring DevOps automation engineering (DAE)
 
 
-## The List
+## The List (work in progress)
 
 0. what is DevOps automation
     - https://resources.github.com/devops/
@@ -30,6 +30,7 @@
     - https://www.udemy.com/course/learn-devops-infrastructure-automation-with-terraform/
     - https://acloudguru.com/course/introduction-to-aws-cloudformation
     - https://cdkworkshop.com/
+    - https://learn.hashicorp.com/tutorials/terraform/cdktf
 
 7. ci/cd: github actions, gitlab, circleci
     - https://www.udemy.com/course/gitlab-ci-pipelines-ci-cd-and-devops-for-beginners/
