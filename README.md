@@ -1,5 +1,4 @@
-# my_dae_blog
-Exploring DevOps automation engineering (DAE)
+> Exploring DevOps automation engineering (DAE)
 
 
 ## The List
