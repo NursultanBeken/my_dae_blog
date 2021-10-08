@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pytest = "*"
+boto3 = "*"
+botocore = "*"
+moto = {extras = ["all"], version = "*"}
+mock = "*"
+
+[dev-packages]
+pylint = "*"
+pytest = "*"
+moto = "*"
+
+[requires]
+python_version = "3.9"
