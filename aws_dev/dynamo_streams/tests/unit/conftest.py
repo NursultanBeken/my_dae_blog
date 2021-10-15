@@ -95,6 +95,40 @@ def dynamo_stream_event():
                     "StreamViewType":"NEW_AND_OLD_IMAGES"
                 },
                 "eventSourceARN":"stream-ARN"
+            },
+            {
+                "eventID":"4",
+                "eventName":"MODIFY",
+                "eventVersion":"1.0",
+                "eventSource":"aws:dynamodb",
+                "awsRegion":"us-gov-west-1",
+                "dynamodb":{
+                    "Keys":{
+                    "Id":{
+                        "S":"103"
+                    }
+                    },
+                    "NewImage":{
+                    "Message":{
+                        "S":"This item has changed"
+                    },
+                    "Id":{
+                        "S":"103"
+                    }
+                    },
+                    "OldImage":{
+                    "Message":{
+                        "S":"New item!"
+                    },
+                    "Id":{
+                        "S":"103"
+                    }
+                    },
+                    "SequenceNumber":"222",
+                    "SizeBytes":59,
+                    "StreamViewType":"NEW_AND_OLD_IMAGES"
+                },
+                "eventSourceARN":"stream-ARN"
             }
         ]
     }
