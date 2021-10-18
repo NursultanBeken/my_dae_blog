@@ -17,3 +17,21 @@ lint:  ## check syntax of python code
 
 unittest: ## run pytest
 	pipenv run python -m pytest -s -vvv tests/unit/
+
+deploydev: ## deploy in dev
+	cd terraform && terraform init && terraform fmt && terraform validate ; \
+	terraform workspace select dev || terraform workspace new dev ; \
+	terraform plan -input=false -var-file=tfvars/dev.tfvars -out=devplan.tfplan ; \
+	terraform apply devplan.tfplan
+
+deployprod: ## deploy in prod
+	cd terraform && terraform init && terraform fmt && terraform validate ; \
+	terraform workspace select prod || terraform workspace new prod ; \
+	terraform plan -input=false -var-file=tfvars/prod.tfvars -out=prodplan.tfplan ; \
+	terraform apply prodplan.tfplan
+
+destroydev: ## deploy in dev
+	cd terraform && terraform destroy -var-file=tfvars/dev.tfvars -auto-approve
+
+destroyprod: ## deploy in prod
+	terraform destroy -var-file=tfvars/prod.tfvars -auto-approve

@@ -27,17 +27,23 @@ def dynamo_stream_event():
                 "awsRegion":"us-east-1",
                 "dynamodb":{
                     "Keys":{
-                    "Id":{
-                        "S":"101"
-                    }
+                        "account_id":{
+                            "S":"101"
+                        },
+                        "partition":{
+                            "S": "aws"
+                        }
                     },
                     "NewImage":{
-                    "Message":{
-                        "S":"New item!"
-                    },
-                    "Id":{
-                        "S":"101"
-                    }
+                        "Message":{
+                            "S":"New item!"
+                        },
+                        "account_id":{
+                            "S":"101"
+                        },
+                        "partition":{
+                            "S": "aws"
+                        }                  
                     },
                     "SequenceNumber":"111",
                     "SizeBytes":26,
@@ -53,25 +59,34 @@ def dynamo_stream_event():
                 "awsRegion":"us-east-1",
                 "dynamodb":{
                     "Keys":{
-                    "Id":{
-                        "S":"101"
-                    }
+                        "account_id":{
+                            "S":"101"
+                        },
+                        "partition":{
+                            "S": "aws"
+                        }
                     },
                     "NewImage":{
-                    "Message":{
-                        "S":"This item has changed"
-                    },
-                    "Id":{
-                        "S":"101"
-                    }
+                        "Message":{
+                            "S":"This item has changed"
+                        },
+                        "account_id":{
+                            "S":"101"
+                        },
+                        "partition":{
+                            "S": "aws"
+                        }
                     },
                     "OldImage":{
-                    "Message":{
-                        "S":"New item!"
-                    },
-                    "Id":{
-                        "S":"101"
-                    }
+                        "Message":{
+                            "S":"New item!"
+                        },
+                        "account_id":{
+                            "S":"101"
+                        },
+                        "partition":{
+                            "S": "aws"
+                        }
                     },
                     "SequenceNumber":"222",
                     "SizeBytes":59,
@@ -87,17 +102,23 @@ def dynamo_stream_event():
                 "awsRegion":"us-east-1",
                 "dynamodb":{
                     "Keys":{
-                    "Id":{
-                        "S":"101"
-                    }
+                        "account_id":{
+                            "S":"101"
+                        },
+                        "partition":{
+                            "S": "aws"
+                        }
                     },
                     "OldImage":{
-                    "Message":{
-                        "S":"This item has changed"
-                    },
-                    "Id":{
-                        "S":"101"
-                    }
+                        "Message":{
+                            "S":"This item has changed"
+                        },
+                        "account_id":{
+                            "S":"101"
+                        },
+                        "partition":{
+                            "S": "aws"
+                        }
                     },
                     "SequenceNumber":"333",
                     "SizeBytes":38,
@@ -113,25 +134,34 @@ def dynamo_stream_event():
                 "awsRegion":"us-gov-west-1",
                 "dynamodb":{
                     "Keys":{
-                    "Id":{
-                        "S":"103"
-                    }
+                        "account_id":{
+                            "S":"103"
+                        },
+                        "partition":{
+                            "S": "aws"
+                        }
                     },
                     "NewImage":{
-                    "Message":{
-                        "S":"This item has changed"
-                    },
-                    "Id":{
-                        "S":"103"
-                    }
+                        "Message":{
+                            "S":"This item has changed"
+                        },
+                        "account_id":{
+                            "S":"103"
+                        },
+                        "partition":{
+                            "S": "aws"
+                        }
                     },
                     "OldImage":{
-                    "Message":{
-                        "S":"New item!"
-                    },
-                    "Id":{
-                        "S":"103"
-                    }
+                        "Message":{
+                            "S":"New item!"
+                        },
+                        "account_id":{
+                            "S":"103"
+                        },
+                        "partition":{
+                            "S": "aws"
+                        }
                     },
                     "SequenceNumber":"222",
                     "SizeBytes":59,
@@ -147,10 +177,14 @@ def dynamodb_table(aws_credentials):
     with moto.mock_dynamodb2():
         boto3.client('dynamodb').create_table(
             AttributeDefinitions=[
-                {'AttributeName': 'Id', 'AttributeType': 'S'}
+                {'AttributeName': 'account_id', 'AttributeType': 'S'},
+                {'AttributeName': 'partition', 'AttributeType': 'S'}
             ],
             TableName=TEST_DYNAMO_TABLE_NAME,
-            KeySchema=[{'AttributeName': 'Id', 'KeyType': 'HASH'}],
+            KeySchema=[
+                {'AttributeName': 'account_id', 'KeyType': 'HASH'},
+                {'AttributeName': 'partition', 'KeyType': 'RANGE'}
+            ],
             ProvisionedThroughput={"ReadCapacityUnits": 5, "WriteCapacityUnits": 5},
             StreamSpecification={
                 'StreamEnabled': True,
