@@ -21,23 +21,26 @@ def get_creds(path, session):
 
     return json.loads(response["Parameters"][0]["Value"])
 
-if TEST_FLG == "0":
-    # init prod session if not running tests
-    comm_session = boto3.Session()
-    prod_creds = get_creds(CREDS_PARAMETER_PATH, comm_session)
+comm_session = boto3.Session()
+prod_creds = get_creds(CREDS_PARAMETER_PATH, comm_session)
+
+# init prod session
+if TEST_FLG == "1":
+    prod_session = boto3.Session()
+else:
+    prod_session = boto3.Session()
     prod_session = boto3.Session(
         aws_access_key_id=prod_creds["id"],
         aws_secret_access_key=prod_creds["key"],
         region_name="us-east-1"
     )
 
+dynamodb = prod_session.resource("dynamodb")
+table = dynamodb.Table(DYNAMO_DB_NAME)
+
 def handler(event, context):
     """Handler
     """
-    session = boto3.Session()
-    dynamodb = session.resource("dynamodb")
-    table = dynamodb.Table(DYNAMO_DB_NAME)
-
     for record in event["Records"]:
         if record["eventSource"] == "aws:dynamodb" and record["awsRegion"] == "us-east-1":
 

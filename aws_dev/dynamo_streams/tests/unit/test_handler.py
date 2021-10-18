@@ -7,25 +7,13 @@ from unittest import mock
 def mock_settings_env_vars():
     env = {
         "DYNAMO_DB_NAME": "test-dynamodb-table",
+        "CREDS_PARAMETER_PATH": "/master/test/avm/govcreds",
         "TEST_FLG": "1"
     }
     with mock.patch.dict(os.environ, env):
         yield
 
-
-def test_handler(dynamo_stream_event, dynamodb_table):
-    """Test handler
-    """
-    from src import app
-    try:
-        response = app.handler(dynamo_stream_event, None)
-    except Exception as e:
-        print(e)
-
-    assert True == True
-    
-
-def test_put_new_record(dynamodb_table):
+def test_put_new_record(dynamodb_table, ssm_param):
     """Test the put_record into table with a valid input data
     """
     from src import app
@@ -37,7 +25,7 @@ def test_put_new_record(dynamodb_table):
     assert response["Id"] == data["Id"]
     assert response["Message"] == data["Message"]
 
-def test_update_record(dynamodb_table):
+def test_update_record(dynamodb_table, ssm_param):
     """Test update_record into table with a valid input data
     """
     from src import app
@@ -56,7 +44,7 @@ def test_update_record(dynamodb_table):
     assert get_response["Message"] == newdata["Message"]
     assert get_response["new_attr"] == newdata["new_attr"]
 
-def test_delete_record(dynamodb_table):
+def test_delete_record(dynamodb_table, ssm_param):
     """Test delete_record into table with a valid input data
     """
     from src import app
@@ -71,5 +59,21 @@ def test_delete_record(dynamodb_table):
     get_response = dynamodb_table.get_item(Key={'Id': '199'})
     assert "Item" not in get_response
 
-def test_ged_creds():
-    pass
+def test_ged_creds(ssm_param):
+    from src import app
+    session = boto3.Session()
+    creds = app.get_creds("/master/test/avm/govcreds", session)
+
+    assert creds["id"] == "testing_id"
+    assert creds["key"] == "testing_key"
+
+def test_handler(dynamo_stream_event, ssm_param, dynamodb_table):
+    """Test handler
+    """
+    from src import app
+    try:
+        response = app.handler(dynamo_stream_event, None)
+    except Exception as e:
+        print(e)
+
+    assert True == True
