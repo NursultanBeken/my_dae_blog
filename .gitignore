@@ -7,6 +7,12 @@ __pycache__/
 # C extensions
 *.so
 
+.terraform
+tfvars/
+terraform.tfstate*
+.terraform.lock*
+*.tfplan
+*.zip
 # Distribution / packaging
 .Python
 build/
