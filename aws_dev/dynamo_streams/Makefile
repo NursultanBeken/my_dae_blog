@@ -30,8 +30,8 @@ deployprod: ## deploy in prod
 	terraform plan -input=false -var-file=tfvars/prod.tfvars -out=prodplan.tfplan ; \
 	terraform apply prodplan.tfplan
 
-destroydev: ## deploy in dev
+destroydev: ## destroy in dev
 	cd terraform && terraform destroy -var-file=tfvars/dev.tfvars -auto-approve
 
-destroyprod: ## deploy in prod
+destroyprod: ## destroy in prod
 	terraform destroy -var-file=tfvars/prod.tfvars -auto-approve
