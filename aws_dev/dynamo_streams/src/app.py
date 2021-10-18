@@ -9,6 +9,7 @@ DYNAMO_DB_NAME = os.getenv("DYNAMO_DB_NAME","prod-dynamodb-table")
 CREDS_PARAMETER_PATH = os.getenv("CREDS_PARAMETER_PATH","/master/prod/avm/govcreds")
 TEST_FLG = os.getenv("TEST_FLG", "0")
 
+
 def get_creds(path, session):
     """Retrive AWS credentials from parameter store
     """

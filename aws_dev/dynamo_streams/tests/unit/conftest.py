@@ -143,7 +143,7 @@ def dynamo_stream_event():
     }
 
 @pytest.fixture
-def dynamodb_table():
+def dynamodb_table(aws_credentials):
     with moto.mock_dynamodb2():
         boto3.client('dynamodb').create_table(
             AttributeDefinitions=[
@@ -161,7 +161,7 @@ def dynamodb_table():
 
 
 @pytest.fixture
-def ssm_param():
+def ssm_param(aws_credentials):
     with moto.mock_ssm():
         client = boto3.client("ssm")
         client.put_parameter(
